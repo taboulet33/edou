@@ -5,15 +5,18 @@ class UsersController < ApplicationController
 # GET /users.xml
   
   def index
+
+
     @users = User.all
-    @map = GMap.new("map_div")
-	@map.control_init(:large_map => true,:map_type => true)
-	@map.center_zoom_init([50.646576,3.141574],15)
-	@map.overlay_init(GMarker.new([50.646576,3.141574],:title => "Hello", :info_window => "Info! Info!"))
-	@map.overlay_init(GMarker.new([50.648,3.141574],:title => "Hello", :info_window => "AAAAAAAAAA"))
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @users }
+    @map = GMap.new("map")
+    @Lille = GoogleGeocoder.geocode("Lille France")
+    @map.control_init(:large_map => true,:map_type => true)
+    @map.center_zoom_init([@Lille.lat,@Lille.lng], 13)
+    	@users.each do |user|
+		coordinates = GoogleGeocoder.geocode("#{user.nom} #{user.prenom} #{user.mail}")
+   		marker = GMarker.new([coordinates.lat,coordinates.lng])
+    	@map.overlay_init(marker)
+           
     end
   end
 
