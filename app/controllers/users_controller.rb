@@ -10,6 +10,7 @@ class UsersController < ApplicationController
 	@map.control_init(:large_map => true,:map_type => true)
 	@map.center_zoom_init([50.646576,3.141574],15)
 	@map.overlay_init(GMarker.new([50.646576,3.141574],:title => "Hello", :info_window => "Info! Info!"))
+	@map.overlay_init(GMarker.new([50.648,3.141574],:title => "Hello", :info_window => "AAAAAAAAAA"))
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @users }
